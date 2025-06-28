@@ -241,7 +241,7 @@ def visualize_graph(G, out_file="outputs/concept_map.html", layout_type="force",
         print(f"Community detection failed: {e}")
         node_community = {n: "#6baed6" for n in G.nodes}
     
-    # --- Enhanced tooltips with connections ---
+    # --- Simple tooltips: just node name ---
     for node in G.nodes:
         size = min_size + (max_size - min_size) * centrality.get(node, 0)
         color = node_community.get(node, "#6baed6")
@@ -268,31 +268,8 @@ def visualize_graph(G, out_file="outputs/concept_map.html", layout_type="force",
         else:
             border_color = "#ffffff"
         
-        # Get sample connections for tooltip
-        neighbors = list(G.neighbors(node))[:3]  # First 3 neighbors
-        neighbor_text = ", ".join(neighbors) if neighbors else "No direct connections"
-        if len(list(G.neighbors(node))) > 3:
-            neighbor_text += f" (+{len(list(G.neighbors(node))) - 3} more)"
-        
-        # Get community info
-        community_idx = None
-        for idx, comm in enumerate(communities):
-            if node in comm:
-                community_idx = idx
-                break
-        
-        community_name = ["Core concepts", "Supporting concepts", "Related concepts", "Secondary concepts", "Additional concepts"][community_idx] if community_idx is not None and community_idx < 5 else f"Cluster {community_idx + 1}" if community_idx is not None else "Unknown"
-        
-        # Enhanced tooltip
-        title = (
-            f'<div style="text-align:left;max-width:250px;">'
-            f'<b style="color:#fff;font-size:16px;">{node}</b><br>'
-            f'<span style="color:#aaa;">Degree: {degree} connections</span><br>'
-            f'<span style="color:#aaa;">Community: {community_name}</span><br>'
-            f'<span style="color:#aaa;">Connections: {neighbor_text}</span>'
-            f'{"<br><span style=\"color:#ffff00;font-weight:bold;\">🔍 SEARCH MATCH</span>" if is_highlighted else ""}'
-            f'</div>'
-        )
+        # Tooltip is just the node name (plain text)
+        title = node
         
         net.add_node(node, label=node, title=title, color=color, size=size, border=border_color)
     

@@ -29,8 +29,8 @@ An intelligent tool that automatically generates concept maps from educational P
 - **With Groq API**: Llama3-70B for best quality
 - **Without Groq**: BART + REBEL models as fallback
 
-
-## 🛠️ Technical Details
+check out the app: https://mindmapforu.streamlit.app/
+take a pdf of medium size and try to extract relations
 
 ### Architecture
 
@@ -53,7 +53,6 @@ MindMap/
 - **`app/app.py`**: Web interface
 
 ## 🎨 Example Output
-
 The tool generates interactive concept maps showing:
 - **Nodes**: Key concepts from your document
 - **Edges**: Relationships between concepts

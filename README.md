@@ -4,7 +4,7 @@ An intelligent tool that automatically generates concept maps from educational P
 
 ## ✨ Features
 
-- **📄 PDF Processing**: Extract text from educational PDFs(there are some pdfs in the repo for checking the working of the website)
+- **📄 PDF Processing**: Extract text from educational PDFs
 - **🤖 AI-Powered Summarization**: Uses Groq's Llama3-70B for high-quality summaries
 - **🔗 Intelligent Relation Extraction**: Automatically identifies concept relationships
 - **🌐 Interactive Concept Maps**: Beautiful, interactive visualizations
@@ -22,7 +22,12 @@ An intelligent tool that automatically generates concept maps from educational P
 7. **Glossary**: definitions of words used in the pdf
 8. **Resources**:provides external links to read more about the resources
 
-## 🔧 Configuration
+   **(there are some pdfs in the repository for checking the working of the website)**
+   try.pdf
+   test.pdf
+   check.pdf
+   Nervous_System_MindSketch_Test.pdf
+   Solar_System_Overview.pdf
 
 ### Models Used
 

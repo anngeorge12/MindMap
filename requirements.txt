@@ -1,0 +1,9 @@
+transformers
+torch
+spacy
+sentence-transformers
+networkx
+pyvis
+streamlit
+PyMuPDF
+nltk

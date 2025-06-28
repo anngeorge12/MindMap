@@ -284,15 +284,15 @@ def visualize_graph(G, out_file="outputs/concept_map.html", layout_type="force",
         community_name = ["Core concepts", "Supporting concepts", "Related concepts", "Secondary concepts", "Additional concepts"][community_idx] if community_idx is not None and community_idx < 5 else f"Cluster {community_idx + 1}" if community_idx is not None else "Unknown"
         
         # Enhanced tooltip
-        title = f"""
-        <div style="text-align:left;max-width:250px;">
-            <b style="color:#fff;font-size:16px;">{node}</b><br>
-            <span style="color:#aaa;">Degree: {degree} connections</span><br>
-            <span style="color:#aaa;">Community: {community_name}</span><br>
-            <span style="color:#aaa;">Connections: {neighbor_text}</span>
-            {f'<br><span style="color:#ffff00;font-weight:bold;">🔍 SEARCH MATCH</span>' if is_highlighted else ''}
-        </div>
-        """
+        title = (
+            f'<div style="text-align:left;max-width:250px;">'
+            f'<b style="color:#fff;font-size:16px;">{node}</b><br>'
+            f'<span style="color:#aaa;">Degree: {degree} connections</span><br>'
+            f'<span style="color:#aaa;">Community: {community_name}</span><br>'
+            f'<span style="color:#aaa;">Connections: {neighbor_text}</span>'
+            f'{"<br><span style=\"color:#ffff00;font-weight:bold;\">🔍 SEARCH MATCH</span>" if is_highlighted else ""}'
+            f'</div>'
+        )
         
         net.add_node(node, label=node, title=title, color=color, size=size, border=border_color)
     

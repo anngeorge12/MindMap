@@ -4,7 +4,7 @@ An intelligent tool that automatically generates concept maps from educational P
 
 ## ✨ Features
 
-- **📄 PDF Processing**: Extract text from educational PDFs
+- **📄 PDF Processing**: Extract text from educational PDFs(there are some pdfs in the repo for checking the working of the website)
 - **🤖 AI-Powered Summarization**: Uses Groq's Llama3-70B for high-quality summaries
 - **🔗 Intelligent Relation Extraction**: Automatically identifies concept relationships
 - **🌐 Interactive Concept Maps**: Beautiful, interactive visualizations

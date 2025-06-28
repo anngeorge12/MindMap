@@ -23,11 +23,11 @@ An intelligent tool that automatically generates concept maps from educational P
 8. **Resources**:provides external links to read more about the resources
 
    **(there are some pdfs in the repository for checking the working of the website)**
-   try.pdf
-   test.pdf
-   check.pdf
-   Nervous_System_MindSketch_Test.pdf
-   Solar_System_Overview.pdf
+   ## try.pdf
+   ## test.pdf
+   ## check.pdf
+   ## Nervous_System_MindSketch_Test.pdf
+   ## Solar_System_Overview.pdf
 
 ### Models Used
 

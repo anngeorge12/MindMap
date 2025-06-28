@@ -9,7 +9,7 @@ import wikipedia
 import re
 
 # Download NLTK punkt tokenizer if not already present
-nltk.download('punkt')
+nltk.download('punkt_tab')
 from nltk.tokenize import sent_tokenize
 
 # Setup for local module imports

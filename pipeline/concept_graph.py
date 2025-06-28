@@ -388,3 +388,29 @@ def visualize_graph(G, out_file="outputs/concept_map.html", layout_type="force",
         f.write(html)
 
     print(f"Graph visualization saved to: {out_file} (with enhanced features)")
+
+def get_learning_path_mermaid(G):
+    """
+    Generate a Mermaid flowchart for the learning path (topological sort) of the concept map graph G.
+    Escapes node names for Mermaid compatibility.
+    """
+    import networkx as nx
+    import re
+    def sanitize(node):
+        # Remove newlines, tabs, and escape quotes/backslashes
+        node = str(node).replace('"', '\"').replace('\\', '\\')
+        node = re.sub(r'[\n\r\t]', ' ', node)
+        return node.strip()
+    if not G or not G.nodes:
+        return "flowchart TD\n  %% No concepts found"
+    try:
+        order = list(nx.topological_sort(G))
+    except Exception:
+        order = list(G.nodes)
+    edges = list(G.edges())
+    if not edges:
+        return "flowchart TD\n  " + " --> ".join([f'"{sanitize(n)}"' for n in order])
+    mermaid = ["flowchart TD"]
+    for u, v in edges:
+        mermaid.append(f'  "{sanitize(u)}" --> "{sanitize(v)}"')
+    return "\n".join(mermaid)

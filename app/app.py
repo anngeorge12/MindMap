@@ -4,6 +4,8 @@ import streamlit as st
 import nltk
 import streamlit.components.v1 as components
 from collections import Counter
+import random
+import wikipedia
 
 # Download NLTK punkt tokenizer if not already present
 nltk.download('punkt')
@@ -18,7 +20,7 @@ if PROJECT_ROOT not in sys.path:
 from utils.preprocess import extract_text_from_pdf, chunk_text, get_document_stats, estimate_document_size
 from models.summarizer import summarize_chunks, create_document_summary
 from models.relations_extract import extract_relations, extract_relations_batch
-from pipeline.concept_graph import parse_triplets, build_graph, visualize_graph, get_layout_options
+from pipeline.concept_graph import parse_triplets, build_graph, visualize_graph, get_layout_options, get_learning_path_mermaid
 
 # Streamlit UI config
 st.set_page_config(page_title="MindSketch", layout="wide")
@@ -186,31 +188,22 @@ if uploaded:
             st.stop()
 
     # Step 4: Chunking text
-    with st.spinner("📚 Processing document..."):
+    with st.spinner("Processing document..."):
         try:
-            # Create a progress placeholder for chunking
             chunk_progress_placeholder = st.empty()
-            
             def chunk_progress_callback(message):
-                chunk_progress_placeholder.info(message)
-            
-            # Get recommended chunk size based on document size
+                pass  # No UI update
             doc_size, recommended_chunk_size, recommended_overlap = estimate_document_size(raw_text)
-            
-            # Use adaptive chunking
             chunks = chunk_text(raw_text, max_tokens=recommended_chunk_size, progress_callback=chunk_progress_callback)
         except Exception as e:
             st.error(f"Chunking failed: {e}")
             st.stop()
 
     # Step 5: Overlap chunks
-    with st.spinner("🔄 Creating overlapping chunks..."):
+    with st.spinner():
         try:
-            overlap_progress_placeholder = st.empty()
-            
             def overlap_progress_callback(message):
-                overlap_progress_placeholder.info(message)
-            
+                pass  # No UI update
             from utils.preprocess import overlap_chunks
             chunks = overlap_chunks(chunks, overlap=recommended_overlap, progress_callback=overlap_progress_callback)
         except Exception as e:
@@ -218,10 +211,6 @@ if uploaded:
             st.stop()
 
     # Step 6: Summarize chunks
-    st.info("📝 Summarizing chunks...")
-    progress_bar = st.progress(0)
-    status_text = st.empty()
-    
     try:
         summaries = summarize_chunks(chunks)
     except Exception as e:
@@ -305,6 +294,73 @@ if uploaded:
                 st.error(f"Error displaying graph: {e}")
         else:
             st.info("🔄 Click 'Regenerate Graph' in the sidebar to apply view changes")
+        
+        # --- Learning Path (Distinct, Compact, Colorful, Max 6 Steps) ---
+        st.subheader("🛤️ Learning Path (Recommended Order)")
+        try:
+            import networkx as nx
+            order = list(nx.topological_sort(G))
+        except Exception:
+            order = list(G.nodes)
+        # Remove duplicates, preserve order
+        seen = set()
+        unique_order = []
+        for concept in order:
+            c_lower = concept.strip().lower()
+            if c_lower not in seen:
+                unique_order.append(concept)
+                seen.add(c_lower)
+        # Prioritize by degree centrality for importance
+        degree_centrality = nx.degree_centrality(G)
+        unique_order = sorted(unique_order, key=lambda x: -degree_centrality.get(x, 0))
+        max_steps = 6
+        if unique_order:
+            st.markdown("""
+            <style>
+            .learning-path-step {
+                color: #222;
+                margin-bottom: 8px;
+                padding: 10px 16px 10px 16px;
+                border-radius: 7px;
+                box-shadow: 0 1px 4px #0001;
+                font-size: 1em;
+                display: flex;
+                align-items: center;
+            }
+            .learning-path-number {
+                background: rgba(255,255,255,0.18);
+                color: #222;
+                font-weight: bold;
+                border-radius: 50%;
+                width: 26px;
+                height: 26px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 12px;
+                font-size: 1em;
+                box-shadow: 0 1px 2px #0002;
+            }
+            </style>
+            """, unsafe_allow_html=True)
+            # Pastel color palette
+            colors = [
+                "#b3e5fc",  # Light Blue
+                "#c8e6c9",  # Mint
+                "#ffe0b2",  # Peach
+                "#f8bbd0",  # Pink
+                "#d1c4e9",  # Lavender
+                "#fff9c4"   # Light Yellow
+            ]
+            steps_html = ""
+            for idx, concept in enumerate(unique_order[:max_steps], 1):
+                color = colors[(idx-1) % len(colors)]
+                steps_html += f'<div class="learning-path-step" style="background:{color};"><div class="learning-path-number">{idx}</div> <b>{concept}</b></div>'
+            st.markdown(steps_html, unsafe_allow_html=True)
+        else:
+            st.info("No learning path could be determined (graph may be empty or cyclic).")
             
+        # --- Flashcards section removed as per user request ---
+
     except Exception as e:
         st.error(f"Graph building or visualization failed: {e}")

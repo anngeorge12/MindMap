@@ -9,3 +9,4 @@ PyMuPDF
 nltk
 openai
 python-dotenv
+wikipedia

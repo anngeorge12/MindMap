@@ -88,8 +88,8 @@
                   
 
                   // parsing and collecting nodes and edges from the python
-                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "white"}, "id": "brain", "label": "brain", "shape": "dot", "title": "brain"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "cord", "label": "cord", "shape": "dot", "title": "cord"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "connects", "label": "connects", "shape": "dot", "title": "connects"}]);
-                  edges = new vis.DataSet([{"from": "brain", "label": "spinal", "title": "spinal", "to": "cord"}, {"from": "cord", "label": "brain", "title": "brain", "to": "connects"}]);
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "white"}, "id": "heart", "label": "heart", "shape": "dot", "size": 20, "title": "heart"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "blood", "label": "blood", "shape": "dot", "size": 20, "title": "blood"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "lungs", "label": "lungs", "shape": "dot", "size": 20, "title": "lungs"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "oxygen", "label": "oxygen", "shape": "dot", "size": 20, "title": "oxygen"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "brain", "label": "brain", "shape": "dot", "size": 20, "title": "brain"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "body functions", "label": "body functions", "shape": "dot", "size": 20, "title": "body functions"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "information", "label": "information", "shape": "dot", "size": 20, "title": "information"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "spinal cord", "label": "spinal cord", "shape": "dot", "size": 20, "title": "spinal cord"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "signals", "label": "signals", "shape": "dot", "size": 20, "title": "signals"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "neurons", "label": "neurons", "shape": "dot", "size": 20, "title": "neurons"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "electrical signals", "label": "electrical signals", "shape": "dot", "size": 20, "title": "electrical signals"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "heart", "label": "pumps", "title": "pumps", "to": "blood"}, {"arrows": "to", "from": "lungs", "label": "provide", "title": "provide", "to": "oxygen"}, {"arrows": "to", "from": "brain", "label": "controls", "title": "controls", "to": "body functions"}, {"arrows": "to", "from": "brain", "label": "processes", "title": "processes", "to": "information"}, {"arrows": "to", "from": "brain", "label": "sends", "title": "sends", "to": "signals"}, {"arrows": "to", "from": "spinal cord", "label": "receives", "title": "receives", "to": "signals"}, {"arrows": "to", "from": "neurons", "label": "carry", "title": "carry", "to": "electrical signals"}]);
 
                   nodeColors = {};
                   allNodes = nodes.get({ returnType: "Object" });
@@ -100,35 +100,7 @@
                   // adding nodes and edges to the graph
                   data = {nodes: nodes, edges: edges};
 
-                  var options = {
-    "configure": {
-        "enabled": false
-    },
-    "edges": {
-        "color": {
-            "inherit": true
-        },
-        "smooth": {
-            "enabled": true,
-            "type": "dynamic"
-        }
-    },
-    "interaction": {
-        "dragNodes": true,
-        "hideEdgesOnDrag": false,
-        "hideNodesOnDrag": false
-    },
-    "physics": {
-        "enabled": true,
-        "stabilization": {
-            "enabled": true,
-            "fit": true,
-            "iterations": 1000,
-            "onlyDynamicEdges": false,
-            "updateInterval": 50
-        }
-    }
-};
+                  var options = {"physics": {"forceAtlas2Based": {"gravitationalConstant": -50, "centralGravity": 0.01, "springLength": 200, "springConstant": 0.08}, "maxVelocity": 50, "minVelocity": 0.1, "solver": "forceAtlas2Based", "timestep": 0.35}};
 
                   
 

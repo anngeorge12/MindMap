@@ -7,3 +7,5 @@ pyvis
 streamlit
 PyMuPDF
 nltk
+openai
+python-dotenv
